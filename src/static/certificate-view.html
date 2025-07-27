@@ -149,64 +149,61 @@
     </div>
 
     <script>
-        // ===== جلب البيانات ديناميكياً =====
-        document.addEventListener('DOMContentLoaded', async () => {
-            const params = new URLSearchParams(window.location.search);
-            const id = params.get('id');
+document.addEventListener('DOMContentLoaded', async () => {
+    const params = new URLSearchParams(window.location.search);
+    const id   = params.get('id');
+    const type = params.get('type');   // unified / annual
+    const city = params.get('city');
 
-            if (!id) {
-                alert('رقم الشهادة غير موجود');
-                return;
-            }
+    if (!id) {
+        alert('رقم الشهادة غير موجود');
+        return;
+    }
 
-            try {
-                const res = await fetch(`/api/certificates/${id}/view`);
-                const json = await res.json();
-                const c = json.data;
+    try {
+        const res = await fetch(`/api/certificates/${id}`);
+        const json = await res.json();
+        const c = json.data;
 
-                // ملء البيانات
-                document.getElementById('page-title').textContent = c.name || '--';
-                document.getElementById('full-name').textContent = c.name || '--';
-                document.getElementById('nationality').textContent = c.nationality || '--';
-                document.getElementById('age').textContent = c.age || '--';
-                document.getElementById('profession').textContent = c.profession || '--';
-                document.getElementById('identity-number').textContent = c.id_number || '--';
-                document.getElementById('certificate-number').textContent = c.certificate_number || '--';
-                document.getElementById('medical-issue-date').textContent = c.medical_certificate_issue_date || '--';
-                document.getElementById('medical-expiry-date').textContent = c.medical_certificate_expiry_date || '--';
-                document.getElementById('educational-program-type').textContent = c.educational_program_type || '--';
-                document.getElementById('educational-expiry-date').textContent = c.educational_program_expiry_date || '--';
+        // ملء البيانات
+        document.getElementById('page-title').textContent = c.name || '--';
+        document.getElementById('full-name').textContent = c.name || '--';
+        document.getElementById('nationality').textContent = c.nationality || '--';
+        document.getElementById('age').textContent = c.age || '--';
+        document.getElementById('profession').textContent = c.profession || '--';
+        document.getElementById('identity-number').textContent = c.id_number || '--';
+        document.getElementById('certificate-number').textContent = c.certificate_number || '--';
+        document.getElementById('medical-issue-date').textContent = c.medical_certificate_issue_date || '--';
+        document.getElementById('medical-expiry-date').textContent = c.medical_certificate_expiry_date || '--';
+        document.getElementById('educational-program-type').textContent = c.educational_program_type || '--';
+        document.getElementById('educational-expiry-date').textContent = c.educational_program_expiry_date || '--';
 
-                // الصورة
-                const img = document.getElementById('profile-image');
-                img.src = c.personal_photo || 'https://via.placeholder.com/120x150?text=صورة';
+        // الصورة
+        const img = document.getElementById('profile-image');
+        img.src = c.personal_photo || 'https://via.placeholder.com/120x150?text=صورة';
 
-                // QR
-                const qr = document.getElementById('qr-code');
-                qr.innerHTML = `<img src="https://api.qrserver.com/v1/create-qr-code/?size=125x125&data=${c.certificate_number || ''}" alt="QR">`;
-            } catch (e) {
-                console.error(e);
-                alert('خطأ في تحميل البيانات');
-            }
-        });
+        // QR
+        document.getElementById('qr-code').innerHTML = `<img src="https://api.qrserver.com/v1/create-qr-code/?size=125x125&data=${c.certificate_number || ''}" alt="QR">`;
+    } catch (e) {
+        console.error(e);
+        alert('خطأ في تحميل البيانات');
+    }
+});
 
-        // وظائف الطباعة
-        function closePrintModal() { document.getElementById('print-modal').style.display = 'none'; }
-        function selectPrintOption(type) {
-            selectedPrintType = type;
-            document.getElementById('city-selection').style.display = 'block';
-        }
-        function selectCity(city) {
-            selectedCity = city;
-            document.querySelectorAll('.city-option').forEach(o => o.classList.remove('selected'));
-            event.target.classList.add('selected');
-        }
-        function proceedToPrint() {
-            if (!selectedPrintType || !selectedCity) return alert('اختر المدينة ونوع الطباعة');
-            window.print();
-            closePrintModal();
-        }
-        function goBack() { history.back(); }
-    </script>
+function closePrintModal() { document.getElementById('print-modal').style.display = 'none'; }
+function selectPrintOption(type) { document.getElementById('city-selection').style.display = 'block'; }
+function selectCity(city) {
+    selectedCity = city;
+    document.querySelectorAll('.city-option').forEach(o => o.classList.remove('selected'));
+    event.target.classList.add('selected');
+}
+function proceedToPrint() {
+    if (!selectedCity) return alert('اختر المدينة');
+    window.print();
+    closePrintModal();
+}
+function goBack() { history.back(); }
+</script>
+
 </body>
 </html>
