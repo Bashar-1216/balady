@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تفاصيل الشهادة الصحية</title>
+    <link rel="stylesheet" href="certificate-details.css">
+</head>
+<body>
+    <div class="header">
+        <div class="logo">
+            <img src="assets/balady_logo.png" alt="Balady Logo">
+        </div>
+        <h1>تفاصيل الشهادة الصحية</h1>
+        <div class="menu-icon">
+            <div class="hamburger"></div>
+            <div class="hamburger"></div>
+            <div class="hamburger"></div>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="certificate-details-container">
+            <div class="details-header">
+                <div class="profile-section">
+                    <div class="profile-image-container">
+                        <img id="profile-image" src="https://via.placeholder.com/150x150?text=صورة" alt="الصورة الشخصية" class="profile-image">
+                    </div>
+                    <div class="basic-info">
+                        <h2 id="certificate-name">اسم الشخص</h2>
+                        <p id="certificate-id-display">رقم الشهادة: <span id="certificate-number">غير محدد</span></p>
+                    </div>
+                </div>
+                
+                <div class="action-buttons">
+                    <button class="btn btn-primary" onclick="editCertificate()">تعديل</button>
+                    <button class="btn btn-success" onclick="printCertificate()">طباعة</button>
+                    <button class="btn btn-secondary" onclick="goBack()">رجوع</button>
+                </div>
+            </div>
+
+            <div class="details-grid">
+                <div class="details-section">
+                    <h3>البيانات الأساسية</h3>
+                    <div class="detail-item">
+                        <label>الأمانة:</label>
+                        <span id="amanah">غير محدد</span>
+                    </div>
+                    <div class="detail-item">
+                        <label>البلدية:</label>
+                        <span id="municipality">غير محدد</span>
+                    </div>
+                    <div class="detail-item">
+                        <label>الاسم:</label>
+                        <span id="name">غير محدد</span>
+                    </div>
+                    <div class="detail-item">
+                        <label>رقم الهوية:</label>
+                        <span id="identity_number">غير محدد</span>
+                    </div>
+                    <div class="detail-item">
+                        <label>الجنسية:</label>
+                        <span id="nationality">غير محدد</span>
+                    </div>
+                    <div class="detail-item">
+                        <label>الجنس:</label>
+                        <span id="gender">غير محدد</span>
+                    </div>
+                    <div class="detail-item">
+                        <label>المهنة:</label>
+                        <span id="profession">غير محدد</span>
+                    </div>
+                </div>
+
+                <div class="details-section">
+                    <h3>بيانات الشهادة الطبية</h3>
+                    <div class="detail-item">
+                        <label>تاريخ إصدار الشهادة الطبية:</label>
+                        <span id="medical_certificate_issue_date">غير محدد</span>
+                    </div>
+                    <div class="detail-item">
+                        <label>تاريخ انتهاء الشهادة الطبية:</label>
+                        <span id="medical_certificate_expiry_date">غير محدد</span>
+                    </div>
+                </div>
+
+                <div class="details-section">
+                    <h3>بيانات البرنامج التثقيفي</h3>
+                    <div class="detail-item">
+                        <label>نوع البرنامج التثقيفي:</label>
+                        <span id="educational_program_type">غير محدد</span>
+                    </div>
+                    <div class="detail-item">
+                        <label>تاريخ انتهاء البرنامج التثقيفي:</label>
+                        <span id="educational_program_expiry_date">غير محدد</span>
+                    </div>
+                </div>
+
+                <div class="details-section">
+                    <h3>معلومات إضافية</h3>
+                    <div class="detail-item">
+                        <label>رقم الرخصة:</label>
+                        <span id="license_number">غير محدد</span>
+                    </div>
+                    <div class="detail-item">
+                        <label>اسم المنشأة:</label>
+                        <span id="establishment_name">غير محدد</span>
+                    </div>
+                    <div class="detail-item">
+                        <label>رقم الشهادة:</label>
+                        <span id="certificate_number_detail">غير محدد</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- نافذة منبثقة لخيارات الطباعة -->
+    <div id="print-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>خيارات الطباعة</h2>
+                <span class="close" onclick="closePrintModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="print-options">
+                    <div class="print-option" onclick="selectPrintOption('unified')">
+                        <div class="option-icon">📄</div>
+                        <div class="option-text">
+                            <h3>شهادة موحدة</h3>
+                            <p>طباعة الشهادة الصحية الموحدة الكاملة</p>
+                        </div>
+                    </div>
+                    <div class="print-option" onclick="selectPrintOption('annual')">
+                        <div class="option-icon">📅</div>
+                        <div class="option-text">
+                            <h3>شهادة سنوية</h3>
+                            <p>طباعة الشهادة السنوية المبسطة</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="city-selection" class="city-selection" style="display: none;">
+                    <h3>اختر المدينة</h3>
+                    <div class="cities-grid">
+                        <div class="city-option" onclick="selectCity('الرياض')">الرياض</div>
+                        <div class="city-option" onclick="selectCity('جدة')">جدة</div>
+                        <div class="city-option" onclick="selectCity('الدمام')">الدمام</div>
+                        <div class="city-option" onclick="selectCity('مكة المكرمة')">مكة المكرمة</div>
+                        <div class="city-option" onclick="selectCity('المدينة المنورة')">المدينة المنورة</div>
+                        <div class="city-option" onclick="selectCity('الطائف')">الطائف</div>
+                        <div class="city-option" onclick="selectCity('أبها')">أبها</div>
+                        <div class="city-option" onclick="selectCity('تبوك')">تبوك</div>
+                        <div class="city-option" onclick="selectCity('حائل')">حائل</div>
+                        <div class="city-option" onclick="selectCity('أخرى')">أخرى</div>
+                    </div>
+                    <div class="modal-actions">
+                        <button class="btn btn-primary" onclick="proceedToPrint()">طباعة الشهادة</button>
+                        <button class="btn btn-secondary" onclick="closePrintModal()">إلغاء</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="api.js"></script>
+    <script src="certificate-details.js"></script>
+</body>
+</html>
+

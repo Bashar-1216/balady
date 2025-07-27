@@ -1,0 +1,243 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    direction: rtl;
+}
+
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+    background: white;
+    min-height: 100vh;
+    box-shadow: 0 0 20px rgba(0,0,0,0.1);
+}
+
+/* Header */
+.header {
+    background: #2c5530;
+    color: white;
+    padding: 20px;
+    position: relative;
+}
+
+.header-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.close-btn {
+    position: absolute;
+    right: 0;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 50%;
+    transition: background 0.3s;
+}
+
+.close-btn:hover {
+    background: rgba(255,255,255,0.2);
+}
+
+.header h1 {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+/* Main Content */
+.main-content {
+    padding: 30px 20px;
+}
+
+/* Print Options */
+.print-options {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.print-option {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 12px;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.print-option:hover {
+    background: #e9ecef;
+    border-color: #2c5530;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(44, 85, 48, 0.15);
+}
+
+.option-icon {
+    font-size: 32px;
+    margin-left: 15px;
+    color: #2c5530;
+}
+
+.option-content {
+    flex: 1;
+}
+
+.option-content h3 {
+    font-size: 18px;
+    color: #2c5530;
+    margin-bottom: 5px;
+}
+
+.option-content p {
+    color: #666;
+    font-size: 14px;
+}
+
+.option-arrow {
+    font-size: 18px;
+    color: #2c5530;
+}
+
+/* City Selection */
+.city-selection {
+    margin-bottom: 30px;
+}
+
+.city-selection h2 {
+    color: #2c5530;
+    font-size: 20px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.cities-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 15px;
+}
+
+.city-option {
+    padding: 15px 10px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.city-option:hover {
+    background: #2c5530;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(44, 85, 48, 0.2);
+}
+
+.city-option.selected {
+    background: #2c5530;
+    color: white;
+    border-color: #1e3a21;
+}
+
+.city-option span {
+    font-size: 14px;
+    font-weight: 500;
+}
+
+/* Print Actions */
+.print-actions {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+.btn {
+    padding: 12px 30px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-width: 120px;
+}
+
+.btn-primary {
+    background: #2c5530;
+    color: white;
+}
+
+.btn-primary:hover {
+    background: #1e3a21;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(44, 85, 48, 0.3);
+}
+
+.btn-secondary {
+    background: #6c757d;
+    color: white;
+}
+
+.btn-secondary:hover {
+    background: #545b62;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(108, 117, 125, 0.3);
+}
+
+/* Animations */
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.city-selection,
+.print-actions {
+    animation: slideIn 0.5s ease;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        margin: 0;
+        border-radius: 0;
+    }
+    
+    .main-content {
+        padding: 20px 15px;
+    }
+    
+    .cities-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .print-actions {
+        flex-direction: column;
+    }
+    
+    .btn {
+        width: 100%;
+    }
+}
+

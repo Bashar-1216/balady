@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>خيارات الطباعة</title>
+    <link rel="stylesheet" href="print-options.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="header-content">
+                <button class="close-btn" onclick="closePrintOptions()">✕</button>
+                <h1>خيارات الطباعة</h1>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <div class="print-options">
+                <!-- Unified Certificate Option -->
+                <div class="print-option" onclick="selectPrintOption('unified')">
+                    <div class="option-icon">📄</div>
+                    <div class="option-content">
+                        <h3>شهادة موحدة</h3>
+                        <p>طباعة الشهادة الصحية الموحدة الكاملة</p>
+                    </div>
+                    <div class="option-arrow">▶</div>
+                </div>
+
+                <!-- Annual Certificate Option -->
+                <div class="print-option" onclick="selectPrintOption('annual')">
+                    <div class="option-icon">📅</div>
+                    <div class="option-content">
+                        <h3>شهادة سنوية</h3>
+                        <p>طباعة الشهادة السنوية المبسطة</p>
+                    </div>
+                    <div class="option-arrow">▶</div>
+                </div>
+            </div>
+
+            <!-- City Selection Section -->
+            <div class="city-selection" id="citySelection" style="display: none;">
+                <h2>اختر المدينة</h2>
+                <div class="cities-grid">
+                    <div class="city-option" onclick="selectCity('riyadh')">
+                        <span>الرياض</span>
+                    </div>
+                    <div class="city-option" onclick="selectCity('jeddah')">
+                        <span>جدة</span>
+                    </div>
+                    <div class="city-option" onclick="selectCity('dammam')">
+                        <span>الدمام</span>
+                    </div>
+                    <div class="city-option" onclick="selectCity('mecca')">
+                        <span>مكة المكرمة</span>
+                    </div>
+                    <div class="city-option" onclick="selectCity('medina')">
+                        <span>المدينة المنورة</span>
+                    </div>
+                    <div class="city-option" onclick="selectCity('taif')">
+                        <span>الطائف</span>
+                    </div>
+                    <div class="city-option" onclick="selectCity('abha')">
+                        <span>أبها</span>
+                    </div>
+                    <div class="city-option" onclick="selectCity('tabuk')">
+                        <span>تبوك</span>
+                    </div>
+                    <div class="city-option" onclick="selectCity('hail')">
+                        <span>حائل</span>
+                    </div>
+                    <div class="city-option" onclick="selectCity('other')">
+                        <span>أخرى</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Print Actions -->
+            <div class="print-actions" id="printActions" style="display: none;">
+                <button class="btn btn-primary" onclick="proceedToPrint()">طباعة الشهادة</button>
+                <button class="btn btn-secondary" onclick="goBack()">العودة</button>
+            </div>
+        </main>
+    </div>
+
+    <script src="print-options.js"></script>
+</body>
+</html>
+
