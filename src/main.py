@@ -1,38 +1,54 @@
 import os
 import sys
-# DON'T CHANGE THIS !!!
-sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
-
+import threading
+import time
+import signal
 from flask import Flask, send_from_directory
 from src.models.user import db
-from src.models.certificate import Certificate
 from src.routes.user import user_bp
 from src.routes.certificate import certificate_bp
 from src.routes.auth import auth_bp
+from src.routes.certificate_view import certificate_view_bp
+
+sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 
 app = Flask(__name__, static_folder=os.path.join(os.path.dirname(__file__), 'static'))
-app.config['SECRET_KEY'] = 'asdf#FGSgvasgf$5$WGT'
 
-from src.routes.certificate_view import certificate_view_bp
+# قراءة متغيرات البيئة مع تعيين قيمة افتراضية
+app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'default-secret-key')
+
+database_url = os.getenv('DATABASE_URL')
+if not database_url:
+    raise RuntimeError("DATABASE_URL environment variable not set!")
+
+app.config['SQLALCHEMY_DATABASE_URI'] = database_url
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+db.init_app(app)
 
 app.register_blueprint(user_bp, url_prefix='/api')
 app.register_blueprint(certificate_bp, url_prefix='/api')
 app.register_blueprint(certificate_view_bp, url_prefix='/api')
 app.register_blueprint(auth_bp, url_prefix='/api')
 
-# uncomment if you need to use database
-app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{os.path.join(os.path.dirname(__file__), 'database', 'app.db')}"
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-db.init_app(app)
 with app.app_context():
     db.create_all()
+
+def shutdown_server_after_delay(delay_minutes=10):
+    def shutdown():
+        time.sleep(delay_minutes * 60)
+        print("⏰ انتهت مدة التجربة، سيتم إيقاف السيرفر الآن.")
+        os.kill(os.getpid(), signal.SIGINT)
+    threading.Thread(target=shutdown, daemon=True).start()
+
+shutdown_server_after_delay(10)  # إيقاف السيرفر بعد 10 دقائق
 
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
 def serve(path):
     static_folder_path = app.static_folder
     if static_folder_path is None:
-            return "Static folder not configured", 404
+        return "Static folder not configured", 404
 
     if path != "" and os.path.exists(os.path.join(static_folder_path, path)):
         return send_from_directory(static_folder_path, path)
@@ -43,6 +59,6 @@ def serve(path):
         else:
             return "index.html not found", 404
 
-
+# التعليق أو الحذف لهذا السطر عند الرفع إلى Render
 # if __name__ == '__main__':
 #     app.run(host='0.0.0.0', port=5000, debug=True)
