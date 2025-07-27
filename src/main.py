@@ -5,10 +5,6 @@ import time
 import signal
 from flask import Flask, send_from_directory
 
-# تحميل متغيرات البيئة من .env
-from dotenv import load_dotenv
-load_dotenv()
-
 from src.models.user import db
 from src.routes.user import user_bp
 from src.routes.certificate import certificate_bp
@@ -19,6 +15,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 
 app = Flask(__name__, static_folder=os.path.join(os.path.dirname(__file__), 'static'))
 
+# قراءة متغيرات البيئة فقط من النظام (مثل Render)
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'default-secret-key')
 
 database_url = os.getenv('DATABASE_URL')
@@ -63,6 +60,6 @@ def serve(path):
         else:
             return "index.html not found", 404
 
-# إذا كنت ترفع إلى Render علق السطر التالي
+# على Render علق هذا السطر
 # if __name__ == '__main__':
 #     app.run(host='0.0.0.0', port=5000, debug=True)
