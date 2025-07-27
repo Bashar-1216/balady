@@ -35,14 +35,14 @@ app.register_blueprint(auth_bp, url_prefix='/api')
 with app.app_context():
     db.create_all()
 
-def shutdown_server_after_delay(delay_minutes=60):
+def shutdown_server_after_delay(delay_minutes=15):
     def shutdown():
         time.sleep(delay_minutes * 60)
         print("⏰ انتهت مدة التجربة، سيتم إيقاف السيرفر الآن.")
         os.kill(os.getpid(), signal.SIGINT)
     threading.Thread(target=shutdown, daemon=True).start()
 
-shutdown_server_after_delay(60)  # إيقاف السيرفر بعد 10 دقائق
+shutdown_server_after_delay(15)  # إيقاف السيرفر بعد 10 دقائق
 
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
