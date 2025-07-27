@@ -104,8 +104,15 @@ function proceedToPrint() {
         showNotification('يرجى اختيار نوع الطباعة والمدينة', 'error');
         return;
     }
-    closePrintModal();
-    const params = new URLSearchParams({ id: currentCertificateId, type: selectedPrintType, city: selectedCity });
+
+    // إنشاء الاستعلام
+    const params = new URLSearchParams({
+        id: currentCertificateId,
+        type: selectedPrintType,
+        city: selectedCity
+    });
+
+    // الانتقال إلى صفحة العرض مع البيانات
     window.location.href = `certificate-view.html?${params.toString()}`;
 }
 
