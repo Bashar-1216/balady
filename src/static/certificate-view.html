@@ -1,25 +1,18 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>الشهادة الصحية الموحدة</title>
-    <link rel="stylesheet" href="certificate-view.css">
+    <link rel="stylesheet" href="certificate-view.css" />
 </head>
 <body>
     <!-- شريط العنوان العلوي -->
     <div class="top-bar">
-        <div class="status-bar">
-            <span class="time">5:17</span>
-            <div class="status-icons">
-                <span class="battery">32%</span>
-                <span class="signal">📶</span>
-                <span class="wifi">📶</span>
-            </div>
-        </div>
+        
         <div class="navigation-bar">
             <button class="back-btn" onclick="goBack()">←</button>
-            <h1 id="page-title">عبد السلام يحيى يحيى...</h1>
+            <h1 id="page-title">--</h1>
             <div class="nav-actions">
                 <button class="share-btn">📤</button>
                 <button class="menu-btn">⋮</button>
@@ -27,28 +20,27 @@
         </div>
     </div>
 
-    <!-- قسم الشهادة الصحية الموحدة -->
+    <!-- الشهادة -->
     <div class="certificate-container">
         <div class="certificate-header">
             <div class="header-bg">
                 <h2 class="certificate-title">الشهادة الصحية الموحدة</h2>
                 <div class="logos">
-                    <img src="assets/ministry_logo.png" alt="وزارة الشؤون البلدية" class="ministry-logo">
-                    <img src="assets/balady_logo.png" alt="بلدي" class="balady-logo">
+                    <img src="assets/ministry_logo.png" alt="وزارة الشؤون البلدية" class="ministry-logo" />
+                    <img src="assets/balady_logo.png" alt="بلدي" class="balady-logo" />
                 </div>
             </div>
         </div>
 
         <div class="certificate-body">
             <div class="main-info-section">
-                <!-- الصورة الشخصية ورمز QR -->
+                <!-- الصورة الشخصية + QR -->
                 <div class="photo-qr-section">
                     <div class="profile-photo-container">
-                        <img id="profile-image" src="https://via.placeholder.com/120x150?text=صورة" alt="الصورة الشخصية" class="profile-photo">
+                        <img id="profile-image" src="https://via.placeholder.com/120x150?text=صورة" alt="الصورة الشخصية" class="profile-photo" />
                     </div>
                     <div class="qr-code-container">
                         <div id="qr-code" class="qr-code">
-                            <!-- سيتم إنشاء رمز QR هنا -->
                             <div class="qr-placeholder">QR</div>
                         </div>
                     </div>
@@ -57,80 +49,39 @@
                 <!-- بيانات الشخص والشهادة -->
                 <div class="person-data-section">
                     <div class="data-row">
-                        <div class="data-field">
-                            <span class="field-value" id="full-name">عبد السلام يحيى يحيى الزعالي</span>
-                        </div>
+                        <span class="field-value" id="full-name">--</span>
                     </div>
-                    
+
                     <div class="data-columns">
                         <div class="left-column">
-                            <div class="data-field">
-                                <span class="field-label">الجنسية</span>
-                                <span class="field-value" id="nationality">سعودي</span>
-                            </div>
-                            <div class="data-field">
-                                <span class="field-label">السن</span>
-                                <span class="field-value" id="age">35</span>
-                            </div>
-                            <div class="data-field">
-                                <span class="field-label">المهنة</span>
-                                <span class="field-value" id="profession">عامل مطعم عليس</span>
-                            </div>
-                            <div class="data-field">
-                                <span class="field-label">تاريخ نهاية الشهادة الصحية</span>
-                                <span class="field-value" id="medical-expiry-date">1448/02/08</span>
-                            </div>
-                            <div class="data-field">
-                                <span class="field-label">تاريخ انتهاء البرنامج التثقيفي</span>
-                                <span class="field-value" id="educational-expiry-date">1449/02/19</span>
-                            </div>
+                            <div class="data-field"><span class="field-label">الجنسية</span><span class="field-value" id="nationality">--</span></div>
+                            <div class="data-field"><span class="field-label">السن</span><span class="field-value" id="age">--</span></div>
+                            <div class="data-field"><span class="field-label">المهنة</span><span class="field-value" id="profession">--</span></div>
+                            <div class="data-field"><span class="field-label">تاريخ نهاية الشهادة الصحية</span><span class="field-value" id="medical-expiry-date">--</span></div>
+                            <div class="data-field"><span class="field-label">تاريخ انتهاء البرنامج التثقيفي</span><span class="field-value" id="educational-expiry-date">--</span></div>
                         </div>
-                        
+
                         <div class="right-column">
-                            <div class="data-field">
-                                <span class="field-label">رقم الهوية</span>
-                                <span class="field-value" id="identity-number">2498134218</span>
-                            </div>
-                            <div class="data-field">
-                                <span class="field-label">رقم الشهادة الصحية</span>
-                                <span class="field-value" id="certificate-number">460349485448</span>
-                            </div>
-                            <div class="data-field">
-                                <span class="field-label">تاريخ إصدار الشهادة الصحية</span>
-                                <span class="field-value" id="medical-issue-date">1447/01/28</span>
-                            </div>
-                            <div class="data-field">
-                                <span class="field-label">نوع البرنامج التثقيفي</span>
-                                <span class="field-value" id="educational-program-type">برنامج التسميل</span>
-                            </div>
+                            <div class="data-field"><span class="field-label">رقم الهوية</span><span class="field-value" id="identity-number">--</span></div>
+                            <div class="data-field"><span class="field-label">رقم الشهادة الصحية</span><span class="field-value" id="certificate-number">--</span></div>
+                            <div class="data-field"><span class="field-label">تاريخ إصدار الشهادة الصحية</span><span class="field-value" id="medical-issue-date">--</span></div>
+                            <div class="data-field"><span class="field-label">نوع البرنامج التثقيفي</span><span class="field-value" id="educational-program-type">--</span></div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- شريط معلومات الاتصال -->
+            <!-- شريط الاتصال -->
             <div class="contact-info-bar">
-                <div class="contact-item">
-                    <span class="contact-icon">📞</span>
-                    <span class="contact-text">199040 رقم الطوارئ للبلدية</span>
-                </div>
-                <div class="contact-item">
-                    <span class="contact-icon">🌐</span>
-                    <span class="contact-text">Balady_cs</span>
-                </div>
-                <div class="contact-item">
-                    <span class="contact-icon">📱</span>
-                    <span class="contact-text">saudimomra</span>
-                </div>
-                <div class="contact-item">
-                    <span class="contact-icon">🌐</span>
-                    <span class="contact-text">www.balady.gov.sa</span>
-                </div>
+                <div class="contact-item"><span class="contact-icon">📞</span><span class="contact-text">199040 رقم الطوارئ للبلدية</span></div>
+                <div class="contact-item"><span class="contact-icon">🌐</span><span class="contact-text">Balady_cs</span></div>
+                <div class="contact-item"><span class="contact-icon">📱</span><span class="contact-text">saudimomra</span></div>
+                <div class="contact-item"><span class="contact-icon">🌐</span><span class="contact-text">www.balady.gov.sa</span></div>
             </div>
         </div>
     </div>
 
-    <!-- قسم التعليمات والإرشادات -->
+    <!-- تعليمات -->
     <div class="instructions-container">
         <div class="instructions-header">
             <div class="instructions-title">
@@ -138,39 +89,19 @@
                 <h3>تعليمات وإرشادات</h3>
             </div>
             <div class="ministry-logos">
-                <img src="assets/ministry_logo.png" alt="وزارة الشؤون البلدية" class="ministry-logo-small">
-                <img src="assets/balady_logo.png" alt="بلدي" class="balady-logo-small">
+                <img src="assets/ministry_logo.png" alt="وزارة الشؤون البلدية" class="ministry-logo-small" />
+                <img src="assets/balady_logo.png" alt="بلدي" class="balady-logo-small" />
             </div>
         </div>
-
         <div class="instructions-content">
-            <div class="instruction-item">
-                <span class="bullet">⭐</span>
-                <p>شهادة صحة تجدد سنوياً</p>
-            </div>
-            <div class="instruction-item">
-                <span class="bullet">⭐</span>
-                <p>يُسمح لحامل الشهادة الصحية بالعمل في منشآت الغذاء أو الصحة العامة وفق الجهة المسموح بها نظاماً</p>
-            </div>
-            <div class="instruction-item">
-                <span class="bullet">⭐</span>
-                <p>يلزم حامل هذه الشهادة بإجراء فحص طبي عند عودته من الخارج قبل البدء بممارسة العمل</p>
-            </div>
-            <div class="instruction-item">
-                <span class="bullet">⭐</span>
-                <p>لا تعتبر الشهادة إثبات هوية</p>
-            </div>
+            <div class="instruction-item"><span class="bullet">⭐</span><p>شهادة صحة تجدد سنوياً</p></div>
+            <div class="instruction-item"><span class="bullet">⭐</span><p>يُسمح لحامل الشهادة الصحية بالعمل في منشآت الغذاء أو الصحة العامة وفق الجهة المسموح بها نظاماً</p></div>
+            <div class="instruction-item"><span class="bullet">⭐</span><p>يلزم حامل هذه الشهادة بإجراء فحص طبي عند عودته من الخارج قبل البدء بممارسة العمل</p></div>
+            <div class="instruction-item"><span class="bullet">⭐</span><p>لا تعتبر الشهادة إثبات هوية</p></div>
         </div>
     </div>
 
-    <!-- أزرار التحكم (مخفية افتراضياً) -->
-    <div class="control-buttons" style="display: none;">
-        <button class="btn btn-primary" onclick="editCertificate()">تعديل</button>
-        <button class="btn btn-success" onclick="printCertificate()">طباعة</button>
-        <button class="btn btn-secondary" onclick="goBack()">رجوع</button>
-    </div>
-
-    <!-- نافذة منبثقة لخيارات الطباعة -->
+    <!-- نافذة طباعة -->
     <div id="print-modal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -194,7 +125,6 @@
                         </div>
                     </div>
                 </div>
-                
                 <div id="city-selection" class="city-selection" style="display: none;">
                     <h3>اختر المدينة</h3>
                     <div class="cities-grid">
@@ -218,10 +148,65 @@
         </div>
     </div>
 
-    <script src="api.js"></script>
-    <script src="certificate-view.js"></script>
+    <script>
+        // ===== جلب البيانات ديناميكياً =====
+        document.addEventListener('DOMContentLoaded', async () => {
+            const params = new URLSearchParams(window.location.search);
+            const id = params.get('id');
+
+            if (!id) {
+                alert('رقم الشهادة غير موجود');
+                return;
+            }
+
+            try {
+                const res = await fetch(`/api/certificates/${id}/view`);
+                const json = await res.json();
+                const c = json.data;
+
+                // ملء البيانات
+                document.getElementById('page-title').textContent = c.name || '--';
+                document.getElementById('full-name').textContent = c.name || '--';
+                document.getElementById('nationality').textContent = c.nationality || '--';
+                document.getElementById('age').textContent = c.age || '--';
+                document.getElementById('profession').textContent = c.profession || '--';
+                document.getElementById('identity-number').textContent = c.id_number || '--';
+                document.getElementById('certificate-number').textContent = c.certificate_number || '--';
+                document.getElementById('medical-issue-date').textContent = c.medical_certificate_issue_date || '--';
+                document.getElementById('medical-expiry-date').textContent = c.medical_certificate_expiry_date || '--';
+                document.getElementById('educational-program-type').textContent = c.educational_program_type || '--';
+                document.getElementById('educational-expiry-date').textContent = c.educational_program_expiry_date || '--';
+
+                // الصورة
+                const img = document.getElementById('profile-image');
+                img.src = c.personal_photo || 'https://via.placeholder.com/120x150?text=صورة';
+
+                // QR
+                const qr = document.getElementById('qr-code');
+                qr.innerHTML = `<img src="https://api.qrserver.com/v1/create-qr-code/?size=125x125&data=${c.certificate_number || ''}" alt="QR">`;
+            } catch (e) {
+                console.error(e);
+                alert('خطأ في تحميل البيانات');
+            }
+        });
+
+        // وظائف الطباعة
+        function closePrintModal() { document.getElementById('print-modal').style.display = 'none'; }
+        function selectPrintOption(type) {
+            selectedPrintType = type;
+            document.getElementById('city-selection').style.display = 'block';
+        }
+        function selectCity(city) {
+            selectedCity = city;
+            document.querySelectorAll('.city-option').forEach(o => o.classList.remove('selected'));
+            event.target.classList.add('selected');
+        }
+        function proceedToPrint() {
+            if (!selectedPrintType || !selectedCity) return alert('اختر المدينة ونوع الطباعة');
+            window.print();
+            closePrintModal();
+        }
+        function goBack() { history.back(); }
+    </script>
 </body>
 </html>
-
-
-
