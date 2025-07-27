@@ -1,164 +1,208 @@
-// متغيرات عامة
 let currentCertificateId = null;
 let selectedPrintType = null;
 let selectedCity = null;
 
-// تحميل البيانات عند تحميل الصفحة
 document.addEventListener('DOMContentLoaded', function() {
-    // الحصول على معرف الشهادة من URL
+    console.log('Certificate details page loaded');
+    
+    // Get certificate ID from URL
     const urlParams = new URLSearchParams(window.location.search);
     currentCertificateId = urlParams.get('id');
+    
+    console.log('Certificate ID from URL:', currentCertificateId);
     
     if (currentCertificateId) {
         loadCertificateDetails(currentCertificateId);
     } else {
-        showNotification('معرف الشهادة غير صحيح', 'error');
+        console.error('No certificate ID found in URL');
+        showNotification('معرف الشهادة غير موجود', 'error');
         setTimeout(() => {
             window.location.href = 'dashboard.html';
         }, 2000);
     }
 });
 
-// تحميل تفاصيل الشهادة من الخادم
 async function loadCertificateDetails(certificateId) {
     try {
+        console.log('Loading certificate details for ID:', certificateId);
+        
         const response = await fetch(`/api/certificates/${certificateId}`);
+        console.log('Response status:', response.status);
         
         if (!response.ok) {
-            throw new Error('فشل في تحميل بيانات الشهادة');
+            throw new Error(`HTTP error! status: ${response.status}`);
         }
         
-        const certificate = await response.json();
-        displayCertificateDetails(certificate);
+        const result = await response.json();
+        console.log('API Response:', result);
+        
+        if (result.success && result.data) {
+            const certificate = result.data;
+            console.log('Certificate data received:', certificate);
+            displayCertificateDetails(certificate);
+        } else {
+            console.error('API returned error or no data:', result);
+            showNotification('خطأ في تحميل بيانات الشهادة', 'error');
+        }
     } catch (error) {
-        console.error('خطأ في تحميل تفاصيل الشهادة:', error);
+        console.error('Error loading certificate details:', error);
         showNotification('خطأ في تحميل البيانات', 'error');
     }
 }
 
-// عرض تفاصيل الشهادة في الصفحة
 function displayCertificateDetails(certificate) {
-    // تحديث الصورة الشخصية والمعلومات الأساسية
-    document.getElementById('profile-image').src = certificate.photo_url || 'https://via.placeholder.com/150x150?text=صورة';
-    document.getElementById('certificate-name').textContent = certificate.name || 'غير محدد';
-    document.getElementById('certificate-number').textContent = certificate.certificate_number || 'غير محدد';
+    console.log('Displaying certificate details:', certificate);
     
-    // تحديث البيانات الأساسية
-    document.getElementById('amanah').textContent = certificate.amanah || 'غير محدد';
-    document.getElementById('municipality').textContent = certificate.municipality || 'غير محدد';
-    document.getElementById('name').textContent = certificate.name || 'غير محدد';
-    document.getElementById('identity_number').textContent = certificate.identity_number || 'غير محدد';
-    document.getElementById('nationality').textContent = certificate.nationality || 'غير محدد';
-    document.getElementById('gender').textContent = certificate.gender || 'غير محدد';
-    document.getElementById('profession').textContent = certificate.profession || 'غير محدد';
-    
-    // تحديث بيانات الشهادة الطبية
-    document.getElementById('medical_certificate_issue_date').textContent = 
-        formatDate(certificate.medical_certificate_issue_date) || 'غير محدد';
-    document.getElementById('medical_certificate_expiry_date').textContent = 
-        formatDate(certificate.medical_certificate_expiry_date) || 'غير محدد';
-    
-    // تحديث بيانات البرنامج التثقيفي
-    document.getElementById('educational_program_type').textContent = 
-        certificate.educational_program_type || 'غير محدد';
-    document.getElementById('educational_program_expiry_date').textContent = 
-        formatDate(certificate.educational_program_expiry_date) || 'غير محدد';
-    
-    // تحديث المعلومات الإضافية
-    document.getElementById('license_number').textContent = certificate.license_number || 'غير محدد';
-    document.getElementById('establishment_name').textContent = certificate.establishment_name || 'غير محدد';
-    document.getElementById('certificate_number_detail').textContent = certificate.certificate_number || 'غير محدد';
-}
-
-// تنسيق التاريخ
-function formatDate(dateString) {
-    if (!dateString) return null;
-    
-    try {
-        const date = new Date(dateString);
-        return date.toLocaleDateString('ar-SA');
-    } catch (error) {
-        return dateString;
+    // Update page title with person's name
+    const pageTitle = document.getElementById('page-title');
+    if (pageTitle) {
+        pageTitle.textContent = certificate.name || 'عبد السلام يحيى يحيى...';
     }
+    
+    // Update profile image
+    const profileImage = document.getElementById('profile-image');
+    if (profileImage) {
+        if (certificate.personal_photo) {
+            profileImage.src = certificate.personal_photo;
+            profileImage.onerror = function() {
+                this.src = 'https://via.placeholder.com/120x150?text=صورة';
+            };
+        } else {
+            profileImage.src = 'https://via.placeholder.com/120x150?text=صورة';
+        }
+    }
+    
+    // Update full name in the certificate
+    const fullNameElement = document.getElementById('full-name');
+    if (fullNameElement) {
+        fullNameElement.textContent = certificate.name || 'غير محدد';
+    }
+    
+    // Update all detail fields with proper mapping
+    const fieldMappings = {
+        // Right column
+        'identity-number': certificate.id_number,
+        'certificate-number': certificate.certificate_number,
+        'medical-issue-date': certificate.medical_certificate_issue_date,
+        'educational-program-type': certificate.educational_program_type,
+        
+        // Left column
+        'nationality': certificate.nationality,
+        'age': '35', // This would need to be calculated from birth date if available
+        'profession': certificate.profession,
+        'medical-expiry-date': certificate.medical_certificate_expiry_date,
+        'educational-expiry-date': certificate.educational_program_expiry_date
+    };
+    
+    // Update each field
+    Object.keys(fieldMappings).forEach(fieldId => {
+        const element = document.getElementById(fieldId);
+        if (element) {
+            const value = fieldMappings[fieldId] || 'غير محدد';
+            element.textContent = value;
+            console.log(`Updated field ${fieldId} with value:`, value);
+        } else {
+            console.warn(`Element with ID ${fieldId} not found`);
+        }
+    });
+    
+    console.log('Certificate details display completed');
 }
 
-// تعديل الشهادة
 function editCertificate() {
     if (currentCertificateId) {
+        console.log('Navigating to edit page for certificate:', currentCertificateId);
         window.location.href = `add-certificate.html?id=${currentCertificateId}&mode=edit`;
+    } else {
+        console.error('No certificate ID available for editing');
+        showNotification('معرف الشهادة غير متوفر', 'error');
     }
 }
 
-// طباعة الشهادة - فتح النافذة المنبثقة
 function printCertificate() {
-    document.getElementById('print-modal').style.display = 'block';
-    document.body.style.overflow = 'hidden'; // منع التمرير في الخلفية
+    console.log('Print certificate button clicked');
+    // Show print modal
+    const printModal = document.getElementById('print-modal');
+    if (printModal) {
+        printModal.style.display = 'block';
+    }
 }
 
-// إغلاق النافذة المنبثقة
 function closePrintModal() {
-    document.getElementById('print-modal').style.display = 'none';
-    document.body.style.overflow = 'auto'; // إعادة تفعيل التمرير
+    const printModal = document.getElementById('print-modal');
+    if (printModal) {
+        printModal.style.display = 'none';
+    }
     
-    // إعادة تعيين الخيارات
+    const citySelection = document.getElementById('city-selection');
+    if (citySelection) {
+        citySelection.style.display = 'none';
+    }
+    
     selectedPrintType = null;
     selectedCity = null;
-    document.getElementById('city-selection').style.display = 'none';
-    
-    // إزالة التحديد من المدن
-    document.querySelectorAll('.city-option').forEach(option => {
-        option.classList.remove('selected');
-    });
 }
 
-// اختيار نوع الطباعة
 function selectPrintOption(type) {
     selectedPrintType = type;
-    document.getElementById('city-selection').style.display = 'block';
+    console.log('Selected print type:', type);
     
-    // تمرير سلس إلى قسم اختيار المدينة
-    document.getElementById('city-selection').scrollIntoView({ 
-        behavior: 'smooth' 
-    });
+    // Hide print options and show city selection
+    const printOptions = document.querySelector('.print-options');
+    if (printOptions) {
+        printOptions.style.display = 'none';
+    }
+    
+    const citySelection = document.getElementById('city-selection');
+    if (citySelection) {
+        citySelection.style.display = 'block';
+    }
 }
 
-// اختيار المدينة
 function selectCity(city) {
     selectedCity = city;
+    console.log('Selected city:', city);
     
-    // إزالة التحديد من جميع المدن
+    // Highlight selected city
     document.querySelectorAll('.city-option').forEach(option => {
         option.classList.remove('selected');
     });
     
-    // إضافة التحديد للمدينة المختارة
-    event.target.classList.add('selected');
+    if (event && event.target) {
+        event.target.classList.add('selected');
+    }
 }
 
-// المتابعة للطباعة
 function proceedToPrint() {
     if (!selectedPrintType || !selectedCity) {
         showNotification('يرجى اختيار نوع الطباعة والمدينة', 'error');
         return;
     }
     
-    // إغلاق النافذة المنبثقة
+    console.log('Proceeding to print with type:', selectedPrintType, 'and city:', selectedCity);
+    
+    // Close modal
     closePrintModal();
     
-    // توجيه إلى صفحة عرض الشهادة للطباعة
-    const printUrl = `certificate-view.html?id=${currentCertificateId}&type=${selectedPrintType}&city=${encodeURIComponent(selectedCity)}`;
-    window.open(printUrl, '_blank');
+    // Navigate to certificate view page with print parameters
+    const params = new URLSearchParams({
+        id: currentCertificateId,
+        type: selectedPrintType,
+        city: selectedCity
+    });
     
-    showNotification('تم فتح صفحة الطباعة في نافذة جديدة', 'success');
+    window.location.href = `certificate-view.html?${params.toString()}`;
 }
 
-// العودة إلى لوحة التحكم
 function goBack() {
+    console.log('Going back to dashboard');
     window.location.href = 'dashboard.html';
 }
 
 // عرض الإشعارات
 function showNotification(message, type = 'info') {
+    console.log('Showing notification:', message, type);
+    
     // إنشاء عنصر الإشعار
     const notification = document.createElement('div');
     notification.className = `notification ${type}`;
@@ -170,12 +214,13 @@ function showNotification(message, type = 'info') {
         top: 20px;
         right: 20px;
         padding: 15px 20px;
-        border-radius: 5px;
+        border-radius: 8px;
         color: white;
         font-weight: bold;
-        z-index: 1001;
+        z-index: 1000;
         animation: slideIn 0.3s ease;
         max-width: 300px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     `;
     
     // تحديد لون الإشعار حسب النوع
@@ -207,14 +252,6 @@ function showNotification(message, type = 'info') {
     }, 3000);
 }
 
-// إغلاق النافذة المنبثقة عند النقر خارجها
-window.onclick = function(event) {
-    const modal = document.getElementById('print-modal');
-    if (event.target === modal) {
-        closePrintModal();
-    }
-}
-
 // إضافة CSS للرسوم المتحركة
 const style = document.createElement('style');
 style.textContent = `
@@ -239,6 +276,42 @@ style.textContent = `
             opacity: 0;
         }
     }
+    
+    .city-option.selected {
+        background-color: #4CAF50 !important;
+        color: white !important;
+        transform: scale(1.05);
+    }
+    
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        animation: fadeIn 0.3s ease;
+    }
+    
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
 `;
 document.head.appendChild(style);
+
+// Make functions globally available
+window.editCertificate = editCertificate;
+window.printCertificate = printCertificate;
+window.goBack = goBack;
+window.closePrintModal = closePrintModal;
+window.selectPrintOption = selectPrintOption;
+window.selectCity = selectCity;
+window.proceedToPrint = proceedToPrint;
+
+console.log('Certificate details JavaScript loaded successfully');
+
+
 
